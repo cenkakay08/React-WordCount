@@ -2,8 +2,7 @@ import axios from 'axios';
   
 import React,{Component} from 'react'; 
   
-class App extends Component { 
-   
+class App extends Component {    
     state = { 
   
       // Initially, no file is selected 
@@ -64,10 +63,9 @@ class App extends Component {
           </div> 
         ); 
       } 
-    }; 
+    };  
      
-    render() { 
-     
+    render() {     
       return ( 
         <div> 
             <h1> 
