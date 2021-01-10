@@ -2,24 +2,36 @@ import axios from "axios";
 
 import React, { useState } from "react";
 
-const App = (props) => {
-  const [text, setText] = useState("default");
-  const [File, setFile] = useState(undefined);
-  const handleupdate = () => {
-    const abc = document.getElementById("input");
-    setFile(abc.files[0]);
-
-    console.log(File);
+const ImportFromFileBodyComponent = () => {
+  let fileReader;
+  const [text, setText] = useState("null asda sd asdas d");
+  const handleFileRead = (e) => {
+    const content = fileReader.result;
+    setText(content);
+    console.log(content);
+    // … do something with the 'content' …
   };
+
+  const handleFileChosen = (file) => {
+    fileReader = new FileReader();
+    fileReader.onloadend = handleFileRead;
+    fileReader.readAsText(file);
+  };
+
   return (
-    <div>
+    <React.Fragment>
       <h1>{text} sdsdsdsd</h1>
-      <h3>File Upload using React!{console.log(File)}</h3>
-      <div>
-        <input type="file" id="input" onChange={handleupdate} />
+      <div className="upload-expense">
+        <input
+          type="file"
+          id="file"
+          className="input-file"
+          accept=".txt"
+          onChange={(e) => handleFileChosen(e.target.files[0])}
+        />
       </div>
-    </div>
+    </React.Fragment>
   );
 };
 
-export default App;
+export default ImportFromFileBodyComponent;
