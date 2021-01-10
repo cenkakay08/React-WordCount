@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import axios from "axios";
 
-function App() {
+import React, { useState } from "react";
+
+const ImportFromFileBodyComponent = () => {
+  let fileReader;
+  const [text, setText] = useState("null asda sd asdas d");
+  const handleFileRead = (e) => {
+    const content = fileReader.result;
+    setText(content);
+    test(content);
+    // … do something with the 'content' …
+  };
+
+  const test = (str) => {
+    console.log(str);
+  };
+
+  const handleFileChosen = (file) => {
+    fileReader = new FileReader();
+    fileReader.onloadend = handleFileRead;
+    fileReader.readAsText(file);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Fragment>
+      <h1>{text} sdsdsdsd</h1>
+      <div className="upload-expense">
+        <input
+          type="file"
+          id="file"
+          className="input-file"
+          accept=".txt"
+          onChange={(e) => handleFileChosen(e.target.files[0])}
+        />
+      </div>
+    </React.Fragment>
   );
-}
+};
 
-export default App;
+export default ImportFromFileBodyComponent;

@@ -1,0 +1,121 @@
+package aima.test.core.unit.probability;
+
+import java.util.Arrays;
+
+import org.junit.Assert;
+import org.junit.Test;
+import aima.core.probability.FiniteProbabilityModel;
+import aima.core.probability.example.ExampleRV;
+import aima.core.probability.example.test_InfectedVitamin_D_LevelCoughFever;
+import aima.core.probability.proposition.AssignmentProposition;
+
+/*
+Name(s) Surname(s) : Cenk AKAY
+Student No(s)#: 171805008
+General Comments: Created Test.
+*/
+
+public class CommonFiniteProbabilityModelTests extends
+		CommonProbabilityModelTests {
+ 
+	@Test
+	public void test_ToothacheCavityCatchWeatherModel_Distributions(
+			) {
+		FiniteProbabilityModel model = new test_InfectedVitamin_D_LevelCoughFever() ;
+		AssignmentProposition infected = new AssignmentProposition(
+				ExampleRV.INFECTED_RV, Boolean.TRUE);
+		AssignmentProposition cough = new AssignmentProposition(
+				ExampleRV.COUGH_RV, Boolean.TRUE);
+		AssignmentProposition vitamin_D_level_low = new AssignmentProposition(
+				ExampleRV.VITAMIN_D_LEVEL_RV, "low");
+		AssignmentProposition vitamin_D_level_normal = new AssignmentProposition(
+				ExampleRV.VITAMIN_D_LEVEL_RV, "normal");
+		AssignmentProposition vitamin_D_level_high = new AssignmentProposition(
+				ExampleRV.VITAMIN_D_LEVEL_RV, "high");
+		AssignmentProposition fever_normal = new AssignmentProposition(
+				ExampleRV.FEVER_RV, "normal");
+		AssignmentProposition fever_high = new AssignmentProposition(
+				ExampleRV.FEVER_RV, "high");
+		
+		double[] value;	
+		
+		// P(infected) = <0.5>
+		Assert.assertArrayEquals(new double[] {0.5},
+		value =	model.priorDistribution(infected).getValues(), DELTA_THRESHOLD);
+		System.out.println("P(infected) = "+Arrays.toString(value));
+		
+		// P(infected, Cough) 
+		// Would be a two-element vector giving the probabilities of a infected
+		// with a cough and  infected with no cough.
+		Assert.assertArrayEquals(new double[] { 0.36539, 0.13461},value = model
+				.priorDistribution(infected, ExampleRV.COUGH_RV).getValues(), DELTA_THRESHOLD);
+		System.out.println("P(infected, Cough) = "+Arrays.toString(value));
+		// P(infected, Vitamin_D_Level)
+		// Would be a three-element vector giving the probabilities of a infected
+		// with a vitamin_D_level_low and  infected with vitamin_D_level_normal and infected with vitamin_D_level_high.
+		Assert.assertArrayEquals(new double[] { 0.19232, 0.16666, 0.14102},value = model
+				.priorDistribution(infected, ExampleRV.VITAMIN_D_LEVEL_RV).getValues(),	DELTA_THRESHOLD);
+		System.out.println("P(infected, Vitamin_D_Level) = "+Arrays.toString(value));
+		// P(infected, Fever)
+		// Would be a two-element vector giving the probabilities of a infected
+		// with a normal fever and  infected with high fever.
+		Assert.assertArrayEquals(new double[] { 0.1923, 0.3077},value = model
+				.priorDistribution(infected, ExampleRV.FEVER_RV).getValues(), DELTA_THRESHOLD);
+		System.out.println("P(infected, Fever) = "+Arrays.toString(value));
+		
+		// P<>(Infected | cough) = <0.73078, 0.26922>
+		Assert.assertArrayEquals(new double[] { 0.73078, 0.26922 },value = model
+				.posteriorDistribution(ExampleRV.INFECTED_RV, cough).getValues(), DELTA_THRESHOLD);
+		System.out.println("P<>(Infected | cough) = "+Arrays.toString(value));
+		// P<>(Infected | fever_high) = <0.6154, 0.3846>
+		Assert.assertArrayEquals(new double[] { 0.6154, 0.3846 },value = model
+				.posteriorDistribution(ExampleRV.INFECTED_RV, fever_high).getValues(), DELTA_THRESHOLD);
+		System.out.println("P<>(Infected | fever_high) = "+Arrays.toString(value));
+		// P<>(Infected | fever_normal) = <0.3846, 0.6154>
+		Assert.assertArrayEquals(new double[] { 0.3846, 0.6154 },value = model
+				.posteriorDistribution(ExampleRV.INFECTED_RV, fever_normal).getValues(), DELTA_THRESHOLD);
+		System.out.println("P<>(Infected | fever_normal) = "+Arrays.toString(value));
+		// P<>(Infected | vitamin_D_level_low) = <0.576948461, 0.0.42305153>
+		Assert.assertArrayEquals(new double[] { 0.576948461, 0.42305153 },value = model
+				.posteriorDistribution(ExampleRV.INFECTED_RV, vitamin_D_level_low).getValues(), DELTA_THRESHOLD);
+		System.out.println("P<>(Infected | vitamin_D_level_low) = "+Arrays.toString(value));	
+		// P<>(Infected | vitamin_D_level_normal) = <0.5, 0.5>
+		Assert.assertArrayEquals(new double[] { 0.5, 0.5},value = model
+				.posteriorDistribution(ExampleRV.INFECTED_RV, vitamin_D_level_normal).getValues(), DELTA_THRESHOLD);
+		System.out.println("P<>(Infected | vitamin_D_level_normal) = "+Arrays.toString(value));	
+		// P<>(Infected | vitamin_D_level_high) = <0.42305153, 0.576948461>
+		Assert.assertArrayEquals(new double[] { 0.42305153, 0.576948461 },value = model
+				.posteriorDistribution(ExampleRV.INFECTED_RV, vitamin_D_level_high).getValues(), DELTA_THRESHOLD);		
+		System.out.println("P<>(Infected | vitamin_D_level_high) = "+Arrays.toString(value));																	
+		// P<>(Infected | cough AND fever_high) = <0.84616615, 0.15383384>
+		Assert.assertArrayEquals(new double[] { 0.84616615, 0.15383384 },value = model
+				.posteriorDistribution(ExampleRV.INFECTED_RV, cough, fever_high).getValues(), DELTA_THRESHOLD);
+		System.out.println("P<>(Infected | cough AND fever_high) = "+Arrays.toString(value));					
+		// P<>(Infected | cough AND fever_high AND vitamin_D_level_low) = <0.92309538, 0.07690461>
+		Assert.assertArrayEquals(new double[] { 0.92309538, 0.07690461},value =	model
+				.posteriorDistribution(ExampleRV.INFECTED_RV, cough, fever_high,vitamin_D_level_low).getValues(), DELTA_THRESHOLD);
+	    System.out.println("P<>(Infected | cough AND fever_high AND vitamin_D_level_low) = "+Arrays.toString(value));	
+		// P<>(Infected | cough AND fever_high AND vitamin_D_level_normal ) = <0.84615384, 0.15384615>
+		Assert.assertArrayEquals(new double[] { 0.84615384, 0.15384615},value =	model
+				.posteriorDistribution(ExampleRV.INFECTED_RV, cough, fever_high,vitamin_D_level_normal).getValues(), DELTA_THRESHOLD);
+		System.out.println("P<>(Infected | cough AND fever_high AND vitamin_D_level_normal) = "+Arrays.toString(value));	
+		// P<>(Infected | cough AND fever_high AND vitamin_D_level_high) = <0.76923076, 0.23076923>
+		Assert.assertArrayEquals(new double[] { 0.76923076, 0.23076923},value =	model
+				.posteriorDistribution(ExampleRV.INFECTED_RV, cough, fever_high,vitamin_D_level_high).getValues(), DELTA_THRESHOLD);
+		System.out.println("P<>(Infected | cough AND fever_high AND vitamin_D_level_high) = "+Arrays.toString(value));
+		// P<>(Infected | cough AND fever_normal AND vitamin_D_level_low) = <0.69230769, 0.30769230>
+		Assert.assertArrayEquals(new double[] { 0.69230769, 0.30769230},value =	model
+				.posteriorDistribution(ExampleRV.INFECTED_RV, cough, fever_normal,vitamin_D_level_low).getValues(), DELTA_THRESHOLD);
+		System.out.println("P<>(Infected | cough AND fever_normal AND vitamin_D_level_low) = "+Arrays.toString(value));
+		// P<>(Infected | cough AND fever_normal AND vitamin_D_level_normal) = <0.61538461, 0.38461538>
+		Assert.assertArrayEquals(new double[] { 0.61538461, 0.38461538},value =	model
+				.posteriorDistribution(ExampleRV.INFECTED_RV, cough, fever_normal,vitamin_D_level_normal).getValues(), DELTA_THRESHOLD);
+		System.out.println("P<>(Infected | cough AND fever_normal AND vitamin_D_level_normal) = "+Arrays.toString(value));
+		// P<>(Infected | cough AND fever_normal AND vitamin_D_level_high) = <0.53846153, 0.461538461>
+		Assert.assertArrayEquals(new double[] { 0.53846153, 0.461538461},value = model
+				.posteriorDistribution(ExampleRV.INFECTED_RV, cough, fever_normal,vitamin_D_level_high).getValues(), DELTA_THRESHOLD);
+		System.out.println("P<>(Infected | cough AND fever_normal AND vitamin_D_level_high) = "+Arrays.toString(value));
+	}
+
+	
+}
