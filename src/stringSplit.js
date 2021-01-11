@@ -1,7 +1,6 @@
-function splitter(str) {
+function splitter(str, id) {
     var counts = {};
     var keys = [];
-    var countString  = "";
     var wordsLength = 0;
     
     const allwords = str.replace(/(\n)/gm,"");
@@ -34,13 +33,15 @@ function splitter(str) {
     //Create whole string for words and counts
     for(var k = 0; k < keys.length; k++) {
         var key = keys[k];
-        countString = countString + key +  " " + counts[key] + "\n";
         all.push([key,counts[key]]);
     }
 
-    const result = "Length of all words = " + wordsLength + "\nLength of unique words = " + keys.length + "\n" + countString;
+    if(id === "info") {        
+        return "Length of all words = " + wordsLength + "\nLength of unique words = " + keys.length;
+    } else {       
+        return all;
+    }
 
-    return all;
 }
 
 export default splitter;

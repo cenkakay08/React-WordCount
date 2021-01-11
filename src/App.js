@@ -1,70 +1,92 @@
 import splitter from "./stringSplit";
-import React, { useState } from "react";
-import styled from 'styled-components';
-import { useTable } from 'react-table'
+import React, { useState, useCallback } from "react";
+import styled from "styled-components";
+import { useDropzone } from "react-dropzone";
+import { ScrollView } from "@cantonjs/react-scroll-view";
 
-const ImportFromFileBodyComponent = () => {
-  const [words, setWords] = useState("");
-  let fileReader;
-  const handleFileRead = (e) => {
-    const content = fileReader.result;
-    counter(content);
-    // … do something with the 'content' …
-  };
+const WordCountApp = () => {
+  const [wordTable, setWordTable] = useState("");
+  const onDrop = useCallback((acceptedFiles) => {
+    acceptedFiles.forEach((file) => {
+      const reader = new FileReader();
 
-  const counter = (str) => {
-    setWords(splitter(str));
-  };
-
-  const handleFileChosen = (file) => {
-    fileReader = new FileReader();
-    fileReader.onloadend = handleFileRead;
-    fileReader.readAsText(file);
-  };
-
+      reader.onabort = () => console.log("file reading was aborted");
+      reader.onerror = () => console.log("file reading has failed");
+      reader.onloadend = () => {
+        // Do whatever you want with the file contents
+        const string = reader.result;
+        console.log(string);
+        var result = splitter(string, "table");
+        console.log(splitter(string, "info"));
+        setWordTable(result);
+      };
+      reader.readAsText(file);
+    });
+  }, []);
+  const { getRootProps, getInputProps } = useDropzone({ onDrop });
   const createTable = () => {
-    let table = []
-    table.push(<tr><td>Word</td><td>Times</td></tr>)
+    let table = [];
+    table.push(
+      <tr>
+        <td>Word</td>
+        <td>Times</td>
+      </tr>
+    );
     // Outer loop to create parent
-    for (let i = 0; i < words.length; i++) {
-      let children = []
+    for (let i = 0; i < wordTable.length; i++) {
+      let children = [];
       //Inner loop to create children
       for (let j = 0; j < 2; j++) {
-        children.push(<td>{words[i][j]}</td>)
+        children.push(<td>{wordTable[i][j]}</td>);
       }
       //Create the parent and add the children
-      table.push(<tr>{children}</tr>)
+      table.push(<tr>{children}</tr>);
     }
-    return table
-  }
-
+    return table;
+  };
   return (
-    <React.Fragment>
-      <WrapperAll>
+    <WrapperAll>
       <React.Fragment>
         <Wrapper>
           <Title>Word Count!</Title>
         </Wrapper>
-        <div className="upload-expense">
+        <Div {...getRootProps()}>
           <input
+            {...getInputProps()}
             type="file"
             id="file"
             className="input-file"
             accept=".txt"
-            onChange={(e) => handleFileChosen(e.target.files[0])}
           />
-        </div>
-        <div>
-        <table>
-          {createTable()}
-        </table>
-        </div>
+          <Droptext>
+            Drag 'n' drop some files here, or click to select files
+          </Droptext>
+        </Div>
+        <ScrollView style={{ height: "100vh" }}>
+          <table>{createTable()}</table>
+        </ScrollView>
       </React.Fragment>
     </WrapperAll>
-    </React.Fragment>
   );
 };
 
+const Droptext = styled.p``;
+const Div = styled.div`
+  height: 20vh;
+  width: 90vw;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border-width: 2px;
+  border-radius: 2px;
+  border-style: dashed;
+  background-color: #fafafa;
+  color: #bdbdbd;
+  outline: none;
+  transition: border 0.24s ease-in-out;
+`;
 const Title = styled.h1`
   font-size: 1.5em;
   text-align: center;
@@ -82,5 +104,4 @@ const WrapperAll = styled.section`
     padding: 0;
   }
 `;
-
-export default ImportFromFileBodyComponent;
+export default WordCountApp;
