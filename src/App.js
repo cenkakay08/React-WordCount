@@ -63,7 +63,7 @@ const WordCountApp = () => {
             Drag 'n' drop some files here, or click to select files
           </Droptext>
         </Div>
-        <ScrollView style={{ height: "100vh" }}>
+        <ScrollView style={{ height: "75vh" }}>
           <table>{createTable()}</table>
         </ScrollView>
       </React.Fragment>
