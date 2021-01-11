@@ -4,22 +4,16 @@ import styled from 'styled-components';
 import { useTable } from 'react-table'
 
 const ImportFromFileBodyComponent = () => {
-  var words = [];
-  var numbers = [];
+  const [words, setWords] = useState("");
   let fileReader;
-  const [text, setText] = useState("");
-  const [stringInfo, setstringInfo] = useState("");
   const handleFileRead = (e) => {
     const content = fileReader.result;
-    setText(content);
-    console.log(content);
     counter(content);
     // … do something with the 'content' …
   };
 
   const counter = (str) => {
-    var result = splitter(str);
-    setstringInfo(result);
+    setWords(splitter(str));
   };
 
   const handleFileChosen = (file) => {
@@ -27,6 +21,22 @@ const ImportFromFileBodyComponent = () => {
     fileReader.onloadend = handleFileRead;
     fileReader.readAsText(file);
   };
+
+  const createTable = () => {
+    let table = []
+    table.push(<tr><td>Word</td><td>Times</td></tr>)
+    // Outer loop to create parent
+    for (let i = 0; i < words.length; i++) {
+      let children = []
+      //Inner loop to create children
+      for (let j = 0; j < 2; j++) {
+        children.push(<td>{words[i][j]}</td>)
+      }
+      //Create the parent and add the children
+      table.push(<tr>{children}</tr>)
+    }
+    return table
+  }
 
   return (
     <React.Fragment>
@@ -45,7 +55,9 @@ const ImportFromFileBodyComponent = () => {
           />
         </div>
         <div>
-        <div>tane kelime var {stringInfo}</div>
+        <table>
+          {createTable()}
+        </table>
         </div>
       </React.Fragment>
     </WrapperAll>
