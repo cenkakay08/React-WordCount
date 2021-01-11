@@ -29,16 +29,18 @@ function splitter(str) {
         var countB = counts[b];
         return countB - countA;
     }
+    var all = [];
 
     //Create whole string for words and counts
     for(var k = 0; k < keys.length; k++) {
         var key = keys[k];
         countString = countString + key +  " " + counts[key] + "\n";
+        all.push([key,counts[key]]);
     }
 
     const result = "Length of all words = " + wordsLength + "\nLength of unique words = " + keys.length + "\n" + countString;
 
-    return result;
+    return all;
 }
 
 export default splitter;

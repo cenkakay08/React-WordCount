@@ -1,21 +1,25 @@
-import axios from "axios";
-
+import splitter from "./stringSplit";
 import React, { useState } from "react";
-
-import splitter from './stringSplit';
+import styled from 'styled-components';
+import { useTable } from 'react-table'
 
 const ImportFromFileBodyComponent = () => {
+  var words = [];
+  var numbers = [];
   let fileReader;
-  const [text, setText] = useState("null asda sd asdas d");
+  const [text, setText] = useState("");
+  const [stringInfo, setstringInfo] = useState("");
   const handleFileRead = (e) => {
     const content = fileReader.result;
-    test(content);
+    setText(content);
+    console.log(content);
+    counter(content);
     // … do something with the 'content' …
   };
 
-  const test = (str) => {
-    var result = splitter(str)
-    setText(result);
+  const counter = (str) => {
+    var result = splitter(str);
+    setstringInfo(result);
   };
 
   const handleFileChosen = (file) => {
@@ -26,20 +30,45 @@ const ImportFromFileBodyComponent = () => {
 
   return (
     <React.Fragment>
-      <div className="upload-expense">
-        <input
-          type="file"
-          id="file"
-          className="input-file"
-          accept=".txt"
-          onChange={(e) => handleFileChosen(e.target.files[0])}
-        />
-      </div>
-      <div>
-        <b>{text}</b>
-      </div>
+      <WrapperAll>
+      <React.Fragment>
+        <Wrapper>
+          <Title>Word Count!</Title>
+        </Wrapper>
+        <div className="upload-expense">
+          <input
+            type="file"
+            id="file"
+            className="input-file"
+            accept=".txt"
+            onChange={(e) => handleFileChosen(e.target.files[0])}
+          />
+        </div>
+        <div>
+        <div>tane kelime var {stringInfo}</div>
+        </div>
+      </React.Fragment>
+    </WrapperAll>
     </React.Fragment>
   );
 };
+
+const Title = styled.h1`
+  font-size: 1.5em;
+  text-align: center;
+  color: #ffd369;
+`;
+const Wrapper = styled.section`
+  background: #393e46;
+`;
+const WrapperAll = styled.section`
+  background: #222831;
+  height: 100vh;
+  width: 100vw;
+  * {
+    margin: 0;
+    padding: 0;
+  }
+`;
 
 export default ImportFromFileBodyComponent;
