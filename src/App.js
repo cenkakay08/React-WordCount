@@ -1,11 +1,11 @@
 import axios from "axios";
-
+import splitter from "./stringSplit";
 import React, { useState } from "react";
 
 const ImportFromFileBodyComponent = () => {
   let fileReader;
   const [text, setText] = useState("");
-  const [count, setCount] = useState(0);
+  const [stringInfo, setstringInfo] = useState("");
   const handleFileRead = (e) => {
     const content = fileReader.result;
     setText(content);
@@ -14,13 +14,9 @@ const ImportFromFileBodyComponent = () => {
     // … do something with the 'content' …
   };
 
-  const counter = (s) => {
-    s = s.replace(/(^\s*)|(\s*$)/gi, ""); //exclude  start and end white-space
-    s = s.replace(/[ ]{2,}/gi, " "); //2 or more space to 1
-    s = s.replace(/\n /, "\n"); // exclude newline with a start spacing
-    var abc = s.split(" ").filter(String).length;
-    //return s.split(' ').filter(String).length; - this can also be used
-    setCount(abc);
+  const counter = (str) => {
+    var result = splitter(str);
+    setstringInfo(result);
   };
 
   const handleFileChosen = (file) => {
@@ -31,9 +27,6 @@ const ImportFromFileBodyComponent = () => {
 
   return (
     <React.Fragment>
-      <p>
-        {text} tane kelime var {count}
-      </p>
       <div className="upload-expense">
         <input
           type="file"
@@ -43,6 +36,7 @@ const ImportFromFileBodyComponent = () => {
           onChange={(e) => handleFileChosen(e.target.files[0])}
         />
       </div>
+      <div>tane kelime var {stringInfo}</div>
     </React.Fragment>
   );
 };
