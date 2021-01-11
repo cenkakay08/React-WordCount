@@ -1,30 +1,31 @@
 import axios from "axios";
 import splitter from "./stringSplit";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import styled from "styled-components";
+import { useDropzone } from "react-dropzone";
 
-const ImportFromFileBodyComponent = () => {
+const WordCountApp = () => {
   let fileReader;
   const [text, setText] = useState("");
   const [stringInfo, setstringInfo] = useState("");
-  const handleFileRead = (e) => {
-    const content = fileReader.result;
-    setText(content);
-    console.log(content);
-    counter(content);
-    // … do something with the 'content' …
-  };
 
-  const counter = (str) => {
-    var result = splitter(str);
-    setstringInfo(result);
-  };
+  const onDrop = useCallback((acceptedFiles) => {
+    acceptedFiles.forEach((file) => {
+      const reader = new FileReader();
 
-  const handleFileChosen = (file) => {
-    fileReader = new FileReader();
-    fileReader.onloadend = handleFileRead;
-    fileReader.readAsText(file);
-  };
+      reader.onabort = () => console.log("file reading was aborted");
+      reader.onerror = () => console.log("file reading has failed");
+      reader.onloadend = () => {
+        // Do whatever you want with the file contents
+        const string = reader.result;
+        console.log(string);
+        var result = splitter(string);
+        setstringInfo(result);
+      };
+      reader.readAsText(file);
+    });
+  }, []);
+  const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
   return (
     <WrapperAll>
@@ -32,21 +33,37 @@ const ImportFromFileBodyComponent = () => {
         <Wrapper>
           <Title>Word Count!</Title>
         </Wrapper>
-        <div className="upload-expense">
+        <Div {...getRootProps()}>
           <input
+            {...getInputProps()}
             type="file"
             id="file"
             className="input-file"
             accept=".txt"
-            onChange={(e) => handleFileChosen(e.target.files[0])}
           />
-        </div>
+          <p>Drag 'n' drop some files here, or click to select files</p>
+        </Div>
         <div>tane kelime var {stringInfo}</div>
       </React.Fragment>
     </WrapperAll>
   );
 };
-
+const Div = styled.div`
+  height: 20vh;
+  width: 90vw;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border-width: 2px;
+  border-radius: 2px;
+  border-style: dashed;
+  background-color: #fafafa;
+  color: #bdbdbd;
+  outline: none;
+  transition: border 0.24s ease-in-out;
+`;
 const Title = styled.h1`
   font-size: 1.5em;
   text-align: center;
@@ -64,4 +81,4 @@ const WrapperAll = styled.section`
     padding: 0;
   }
 `;
-export default ImportFromFileBodyComponent;
+export default WordCountApp;
