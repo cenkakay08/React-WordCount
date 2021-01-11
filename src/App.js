@@ -3,12 +3,10 @@ import splitter from "./stringSplit";
 import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import { useDropzone } from "react-dropzone";
+import { ScrollView } from "@cantonjs/react-scroll-view";
 
 const WordCountApp = () => {
-  let fileReader;
-  const [text, setText] = useState("");
-  const [stringInfo, setstringInfo] = useState("");
-
+  const [wordTable, setWordTable] = useState("");
   const onDrop = useCallback((acceptedFiles) => {
     acceptedFiles.forEach((file) => {
       const reader = new FileReader();
@@ -20,13 +18,33 @@ const WordCountApp = () => {
         const string = reader.result;
         console.log(string);
         var result = splitter(string);
-        setstringInfo(result);
+        console.log(result);
+        setWordTable(result);
       };
       reader.readAsText(file);
     });
   }, []);
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
-
+  const createTable = () => {
+    let table = [];
+    table.push(
+      <tr>
+        <td>Word</td>
+        <td>Times</td>
+      </tr>
+    );
+    // Outer loop to create parent
+    for (let i = 0; i < wordTable.length; i++) {
+      let children = [];
+      //Inner loop to create children
+      for (let j = 0; j < 2; j++) {
+        children.push(<td>{wordTable[i][j]}</td>);
+      }
+      //Create the parent and add the children
+      table.push(<tr>{children}</tr>);
+    }
+    return table;
+  };
   return (
     <WrapperAll>
       <React.Fragment>
@@ -41,13 +59,19 @@ const WordCountApp = () => {
             className="input-file"
             accept=".txt"
           />
-          <p>Drag 'n' drop some files here, or click to select files</p>
+          <Droptext>
+            Drag 'n' drop some files here, or click to select files
+          </Droptext>
         </Div>
-        <div>tane kelime var {stringInfo}</div>
+        <ScrollView style={{ height: "100vh" }}>
+          <table>{createTable()}</table>
+        </ScrollView>
       </React.Fragment>
     </WrapperAll>
   );
 };
+
+const Droptext = styled.p``;
 const Div = styled.div`
   height: 20vh;
   width: 90vw;
