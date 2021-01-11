@@ -36,8 +36,6 @@ function splitter(str) {
         countString = countString + key +  " " + counts[key] + "\n";
     }
 
-    console.log(countString);
-
     const result = "Length of all words = " + wordsLength + "\nLength of unique words = " + keys.length + "\n" + countString;
 
     return result;
