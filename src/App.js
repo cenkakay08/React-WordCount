@@ -1,4 +1,5 @@
 import splitter from "./stringSplit";
+import { Table, Column, Cell } from 'fixed-data-table-2'; // npm install fixed-data-table-2
 import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import { useDropzone } from "react-dropzone";
@@ -17,33 +18,13 @@ const WordCountApp = () => {
         const string = reader.result;
         console.log(string);
         var result = splitter(string, "table");
-        console.log(splitter(string, "info"));
         setWordTable(result);
       };
       reader.readAsText(file);
     });
   }, []);
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
-  const createTable = () => {
-    let table = [];
-    table.push(
-      <tr>
-        <td>Word</td>
-        <td>Times</td>
-      </tr>
-    );
-    // Outer loop to create parent
-    for (let i = 0; i < wordTable.length; i++) {
-      let children = [];
-      //Inner loop to create children
-      for (let j = 0; j < 2; j++) {
-        children.push(<td>{wordTable[i][j]}</td>);
-      }
-      //Create the parent and add the children
-      table.push(<tr>{children}</tr>);
-    }
-    return table;
-  };
+  
   return (
     <WrapperAll>
       <React.Fragment>
@@ -63,7 +44,32 @@ const WordCountApp = () => {
           </Droptext>
         </Div>
         <ScrollView style={{ height: "100vh" }}>
-          <table>{createTable()}</table>
+          <div>
+            <Table
+            rowHeight={50}
+            rowsCount={wordTable.length}
+            headerHeight={50}
+            width={300}
+            height={400}
+          >
+            <Column
+              columnKey="0"
+              header={<Cell>Word</Cell>}
+              width={150}
+              cell={({ rowIndex, columnKey }) => {
+                return <Cell>{wordTable[rowIndex][columnKey]}</Cell>;
+              }}
+            />
+            <Column
+              columnKey="1"
+              header={<Cell>Times</Cell>}
+              width={150}
+              cell={({ rowIndex, columnKey }) => {
+                return <Cell>{wordTable[rowIndex][columnKey]}</Cell>;
+              }}
+            />
+          </Table>
+      </div>
         </ScrollView>
       </React.Fragment>
     </WrapperAll>
