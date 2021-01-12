@@ -102,7 +102,7 @@ const TextItselfdiv = styled.div`
 `;
 
 const TextInfodiv = styled.div`
-height: 55vh;
+height: 20vh;
 width: 33vw;
 top: 42vh;
 overflow: auto;
