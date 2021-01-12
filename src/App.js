@@ -3,7 +3,6 @@ import React, { useState, useCallback } from "react";
 import { Table, Column, Cell } from "fixed-data-table-2";
 import styled from "styled-components";
 import { useDropzone } from "react-dropzone";
-import { ScrollView } from "@cantonjs/react-scroll-view";
 
 const WordCountApp = () => {
   const [textItself, setTextItself] = useState("");
@@ -27,6 +26,7 @@ const WordCountApp = () => {
       reader.readAsText(file);
     });
   }, []);
+
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
   return (
@@ -46,13 +46,15 @@ const WordCountApp = () => {
           <Droptext>Drag-drop the file here, or click to select file!</Droptext>
         </DivInput>
         <div>
-          <TextItselfdiv>{textItself}</TextItselfdiv>
+          <TextItselfdiv>
+            <p>{textItself}</p>
+          </TextItselfdiv>
           <Tabblediv>
             <Table
-              rowHeight={30}
+              rowHeight={20}
               rowsCount={wordTable.length}
-              headerHeight={50}
-              width={300}
+              headerHeight={30}
+              width={280}
               height={450}
             >
               <Column
@@ -66,7 +68,7 @@ const WordCountApp = () => {
               <Column
                 columnKey="1"
                 header={<Cell>Times</Cell>}
-                width={100}
+                width={200}
                 cell={({ rowIndex, columnKey }) => {
                   return <Cell>{wordTable[rowIndex][columnKey]}</Cell>;
                 }}
@@ -84,15 +86,21 @@ const TextItselfdiv = styled.div`
   top: 40vh;
   overflow: auto;
   position: absolute;
+  font-family: Arial, sans-serif;
+  border: 1px solid;
+  left: 3vw;
+  box-shadow: 5px 10px 8px 10px #888888;
 `;
 
 const Tabblediv = styled.div`
   height: 55vh;
-  width: 33vw;
+  width: 18vw;
   top: 40vh;
   left: 40vw;
   position: absolute;
   overflow: hidden;
+  border: 1px solid;
+  box-shadow: 5px 10px 8px 10px #888888;
 `;
 const Droptext = styled.p`
   text-align: center;
