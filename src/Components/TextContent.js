@@ -30,11 +30,13 @@ const TextItselfdiv = styled.div`
   box-shadow: 5px 10px 8px 10px #888888;
 `;
 const TextInfodiv = styled.div`
-  height: 20vh;
+  height: 10vh;
   width: 33vw;
-  top: 42vh;
+  top: 55vh;
   overflow: auto;
-  font-size: 1.3vw;
+  margin: auto;
+  text-align: center;
+  font-size: 2vw;
   font-weight: bold;
   background-color: #fafafa;
   position: absolute;

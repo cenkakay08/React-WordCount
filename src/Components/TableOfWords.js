@@ -1,21 +1,23 @@
 import React from "react";
 import styled from "styled-components";
 import { Table, Column, Cell } from "fixed-data-table-2";
-
+import useWindowDimensions from "./GetScreenDimensions";
 const TableOfWords = ({ wordTable }) => {
+  const { height, width } = useWindowDimensions();
   return (
     <Tabblediv>
       <Table
-        rowHeight={20}
+        rowHeight={(height / 100) * 4}
         rowsCount={wordTable.length}
-        headerHeight={30}
-        width={280}
-        height={450}
+        headerHeight={(height / 100) * 4.5}
+        width={(width / 100) * 18}
+        height={(height / 100) * 55}
       >
         <Column
           columnKey="0"
           header={<Cell>Word</Cell>}
-          width={100}
+          align="center"
+          width={(width / 100) * 12}
           cell={({ rowIndex, columnKey }) => {
             return <Cell>{wordTable[rowIndex][columnKey]}</Cell>;
           }}
@@ -23,7 +25,8 @@ const TableOfWords = ({ wordTable }) => {
         <Column
           columnKey="1"
           header={<Cell>Times</Cell>}
-          width={200}
+          align="center"
+          width={(width / 100) * 5}
           cell={({ rowIndex, columnKey }) => {
             return <Cell>{wordTable[rowIndex][columnKey]}</Cell>;
           }}
@@ -43,6 +46,8 @@ const Tabblediv = styled.div`
   overflow: hidden;
   border: 1px solid;
   box-shadow: 5px 10px 8px 10px #888888;
+  font-size: 1.5vw;
+  font-weight: bold;
 `;
 
 export default TableOfWords;
