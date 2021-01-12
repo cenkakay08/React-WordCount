@@ -26,7 +26,7 @@ const TableOfWords = ({ wordTable }) => {
           columnKey="1"
           header={<Cell>Times</Cell>}
           align="center"
-          width={(width / 100) * 5}
+          width={(width / 100) * 6}
           cell={({ rowIndex, columnKey }) => {
             return <Cell>{wordTable[rowIndex][columnKey]}</Cell>;
           }}
