@@ -1,11 +1,12 @@
 import splitter from "./stringSplit";
 import React, { useState, useCallback } from "react";
+import { Table, Column, Cell } from "fixed-data-table-2";
 import styled from "styled-components";
 import { useDropzone } from "react-dropzone";
 import { ScrollView } from "@cantonjs/react-scroll-view";
 
 const WordCountApp = () => {
-  const [wordTable, setWordTable] = useState("");
+  const [wordTable, setWordTable] = useState([]);
   const onDrop = useCallback((acceptedFiles) => {
     acceptedFiles.forEach((file) => {
       const reader = new FileReader();
@@ -44,6 +45,30 @@ const WordCountApp = () => {
     }
     return table;
   };
+  const products = [
+    {
+      name: "TV",
+      price: 1000,
+    },
+    {
+      name: "Mobile",
+      price: 500,
+    },
+    {
+      name: "Book",
+      price: 20,
+    },
+  ];
+  const columns = [
+    {
+      dataField: "name",
+      text: "Product Name",
+    },
+    {
+      dataField: "price",
+      text: "Product Price",
+    },
+  ];
   return (
     <WrapperAll>
       <React.Fragment>
@@ -61,16 +86,32 @@ const WordCountApp = () => {
           <Droptext>Drag-drop the file here, or click to select file!</Droptext>
         </DivInput>
         <Scrolldiv>
-          <ScrollView
-            style={{
-              height: "63vh",
-              position: "relative",
-              background: "#c1a1d3",
-              width: "20vw",
-            }}
-          >
-            <table>{createTable()}</table>
-          </ScrollView>
+          <div>
+            <Table
+              rowHeight={50}
+              rowsCount={wordTable.length}
+              headerHeight={50}
+              width={300}
+              height={400}
+            >
+              <Column
+                columnKey="0"
+                header={<Cell>Word</Cell>}
+                width={150}
+                cell={({ rowIndex, columnKey }) => {
+                  return <Cell>{wordTable[rowIndex][columnKey]}</Cell>;
+                }}
+              />
+              <Column
+                columnKey="1"
+                header={<Cell>Times</Cell>}
+                width={150}
+                cell={({ rowIndex, columnKey }) => {
+                  return <Cell>{wordTable[rowIndex][columnKey]}</Cell>;
+                }}
+              />
+            </Table>
+          </div>
         </Scrolldiv>
       </React.Fragment>
     </WrapperAll>
@@ -78,10 +119,12 @@ const WordCountApp = () => {
 };
 
 const Scrolldiv = styled.div`
-  height: 63vh;
-  width: 25vw;
-  left: 45vw;
+  height: 55vh;
+  width: 30vw;
+  top: 3vh;
+  left: 40vw;
   position: relative;
+  overflow: hidden auto;
 `;
 const Droptext = styled.p`
   text-align: center;
