@@ -6,6 +6,7 @@ import { useDropzone } from "react-dropzone";
 
 const WordCountApp = () => {
   const [textItself, setTextItself] = useState("");
+  const [textInfo, setTextInfo] = useState("");
   const [wordTable, setWordTable] = useState([]);
   const onDrop = useCallback((acceptedFiles) => {
     acceptedFiles.forEach((file) => {
@@ -20,6 +21,7 @@ const WordCountApp = () => {
         console.log(string);
         console.log(textItself);
         var result = splitter(string);
+        setTextInfo(splitter(string, "info"));
         console.log(result);
         setWordTable(result);
       };
@@ -47,7 +49,7 @@ const WordCountApp = () => {
         </DivInput>
         <div>
           <TextItselfdiv>
-            <p>{textItself}</p>
+            <pre>{textItself}</pre>
           </TextItselfdiv>
           <Tabblediv>
             <Table
@@ -75,11 +77,27 @@ const WordCountApp = () => {
               />
             </Table>
           </Tabblediv>
+          <TextInfodiv>
+            <pre>{textInfo}</pre>
+          </TextInfodiv>
         </div>
       </React.Fragment>
     </WrapperAll>
   );
 };
+const TextInfodiv = styled.div`
+  height: 13vh;
+  width: 33vw;
+  top: 40vh;
+  overflow: auto;
+  position: absolute;
+  font-family: Arial, sans-serif;
+  border: 1px solid;
+  right: 3vw;
+  box-shadow: 5px 10px 8px 10px #888888;
+  font-size: 2vw;
+  font-weight: bold;
+`;
 const TextItselfdiv = styled.div`
   height: 55vh;
   width: 33vw;
@@ -90,6 +108,8 @@ const TextItselfdiv = styled.div`
   border: 1px solid;
   left: 3vw;
   box-shadow: 5px 10px 8px 10px #888888;
+  font-size: 1vw;
+  font-weight: bold;
 `;
 
 const Tabblediv = styled.div`
