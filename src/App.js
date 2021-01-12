@@ -49,7 +49,7 @@ const WordCountApp = () => {
         </DivInput>
         <div>
           <TextItselfdiv>
-            <p>{textItself}</p>
+            <pre>{textItself}</pre>
           </TextItselfdiv>
           <Tabblediv>
             <Table
@@ -78,7 +78,7 @@ const WordCountApp = () => {
             </Table>
           </Tabblediv>
           <TextInfodiv>
-            <p>{textInfo}</p>
+            <pre>{textInfo}</pre>
           </TextInfodiv>
         </div>
       </React.Fragment>
@@ -88,11 +88,15 @@ const WordCountApp = () => {
 const TextItselfdiv = styled.div`
   height: 55vh;
   width: 33vw;
-  top: 40vh;
+  top: 42vh;
   overflow: auto;
   position: absolute;
+  font-weight: bold;
+  font-size: 1vw;
+  background-color: #fafafa;
   font-family: Arial, sans-serif;
   border: 1px solid;
+  display: inline;
   left: 3vw;
   box-shadow: 5px 10px 8px 10px #888888;
 `;
@@ -100,11 +104,15 @@ const TextItselfdiv = styled.div`
 const TextInfodiv = styled.div`
 height: 55vh;
 width: 33vw;
-top: 40vh;
+top: 42vh;
 overflow: auto;
+font-size: 1.3vw;
+font-weight: bold;
+background-color: #fafafa;
 position: absolute;
 font-family: Arial, sans-serif;
 border: 1px solid;
+display: inline;
 right: 3vw;
 box-shadow: 5px 10px 8px 10px #888888;
 `;
@@ -112,8 +120,9 @@ box-shadow: 5px 10px 8px 10px #888888;
 const Tabblediv = styled.div`
   height: 55vh;
   width: 18vw;
-  top: 40vh;
+  top: 42vh;
   left: 40vw;
+  background-color: #fafafa;
   position: absolute;
   overflow: hidden;
   border: 1px solid;
