@@ -6,6 +6,7 @@ import { useDropzone } from "react-dropzone";
 import { ScrollView } from "@cantonjs/react-scroll-view";
 
 const WordCountApp = () => {
+  const [textItself, setTextItself] = useState("");
   const [wordTable, setWordTable] = useState([]);
   const onDrop = useCallback((acceptedFiles) => {
     acceptedFiles.forEach((file) => {
@@ -16,7 +17,9 @@ const WordCountApp = () => {
       reader.onloadend = () => {
         // Do whatever you want with the file contents
         const string = reader.result;
+        setTextItself(string);
         console.log(string);
+        console.log(textItself);
         var result = splitter(string);
         console.log(result);
         setWordTable(result);
@@ -25,26 +28,6 @@ const WordCountApp = () => {
     });
   }, []);
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
-  const createTable = () => {
-    let table = [];
-    table.push(
-      <tr>
-        <td>Word</td>
-        <td>Times</td>
-      </tr>
-    );
-    // Outer loop to create parent
-    for (let i = 0; i < wordTable.length; i++) {
-      let children = [];
-      //Inner loop to create children
-      for (let j = 0; j < 2; j++) {
-        children.push(<td>{wordTable[i][j]}</td>);
-      }
-      //Create the parent and add the children
-      table.push(<tr>{children}</tr>);
-    }
-    return table;
-  };
 
   return (
     <WrapperAll>
@@ -62,19 +45,20 @@ const WordCountApp = () => {
           />
           <Droptext>Drag-drop the file here, or click to select file!</Droptext>
         </DivInput>
-        <Tabblediv>
-          <div>
+        <div>
+          <TextItselfdiv>{textItself}</TextItselfdiv>
+          <Tabblediv>
             <Table
-              rowHeight={50}
+              rowHeight={30}
               rowsCount={wordTable.length}
               headerHeight={50}
               width={300}
-              height={400}
+              height={450}
             >
               <Column
                 columnKey="0"
                 header={<Cell>Word</Cell>}
-                width={150}
+                width={100}
                 cell={({ rowIndex, columnKey }) => {
                   return <Cell>{wordTable[rowIndex][columnKey]}</Cell>;
                 }}
@@ -82,34 +66,41 @@ const WordCountApp = () => {
               <Column
                 columnKey="1"
                 header={<Cell>Times</Cell>}
-                width={150}
+                width={100}
                 cell={({ rowIndex, columnKey }) => {
                   return <Cell>{wordTable[rowIndex][columnKey]}</Cell>;
                 }}
               />
             </Table>
-          </div>
-        </Tabblediv>
+          </Tabblediv>
+        </div>
       </React.Fragment>
     </WrapperAll>
   );
 };
+const TextItselfdiv = styled.div`
+  height: 55vh;
+  width: 33vw;
+  top: 40vh;
+  overflow: auto;
+  position: absolute;
+`;
 
 const Tabblediv = styled.div`
   height: 55vh;
-  width: 30vw;
-  top: 3vh;
+  width: 33vw;
+  top: 40vh;
   left: 40vw;
-  position: relative;
-  overflow: hidden auto;
+  position: absolute;
+  overflow: hidden;
 `;
 const Droptext = styled.p`
   text-align: center;
   color: #0f3057;
   font-weight: bold;
-  font-size: 3.5em;
+  font-size: 4vw;
   width: 100%;
-  line-height: 250%;
+  line-height: 20vh;
 `;
 const DivInput = styled.div`
   height: 20vh;
