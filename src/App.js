@@ -1,4 +1,3 @@
-import axios from "axios";
 import splitter from "./stringSplit";
 import React, { useState, useCallback } from "react";
 import styled from "styled-components";
@@ -48,10 +47,10 @@ const WordCountApp = () => {
   return (
     <WrapperAll>
       <React.Fragment>
-        <Wrapper>
+        <WrapperTitle>
           <Title>Word Count!</Title>
-        </Wrapper>
-        <Div {...getRootProps()}>
+        </WrapperTitle>
+        <DivInput {...getRootProps()}>
           <input
             {...getInputProps()}
             type="file"
@@ -59,45 +58,65 @@ const WordCountApp = () => {
             className="input-file"
             accept=".txt"
           />
-          <Droptext>
-            Drag 'n' drop some files here, or click to select files
-          </Droptext>
-        </Div>
-        <ScrollView style={{ height: "75vh" }}>
-          <table>{createTable()}</table>
-        </ScrollView>
+          <Droptext>Drag-drop the file here, or click to select file!</Droptext>
+        </DivInput>
+        <Scrolldiv>
+          <ScrollView
+            style={{
+              height: "63vh",
+              position: "relative",
+              background: "#c1a1d3",
+              width: "20vw",
+            }}
+          >
+            <table>{createTable()}</table>
+          </ScrollView>
+        </Scrolldiv>
       </React.Fragment>
     </WrapperAll>
   );
 };
 
-const Droptext = styled.p``;
-const Div = styled.div`
+const Scrolldiv = styled.div`
+  height: 63vh;
+  width: 25vw;
+  left: 45vw;
+  position: relative;
+`;
+const Droptext = styled.p`
+  text-align: center;
+  color: #0f3057;
+  font-weight: bold;
+  font-size: 3.5em;
+  width: 100%;
+  line-height: 250%;
+`;
+const DivInput = styled.div`
   height: 20vh;
   width: 90vw;
   flex: 1;
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  padding: 20px;
-  border-width: 2px;
-  border-radius: 2px;
+  left: 4vw;
+  border-width: 10px;
+  border-radius: 20px;
   border-style: dashed;
   background-color: #fafafa;
   color: #bdbdbd;
   outline: none;
   transition: border 0.24s ease-in-out;
+  position: relative;
 `;
 const Title = styled.h1`
-  font-size: 1.5em;
+  font-size: 5em;
   text-align: center;
   color: #ffd369;
+  font-weight: bold;
 `;
-const Wrapper = styled.section`
-  background: #393e46;
+const WrapperTitle = styled.section`
+  background: #008891;
 `;
 const WrapperAll = styled.section`
-  background: #222831;
+  background: #e7e7de;
   height: 100vh;
   width: 100vw;
   * {
