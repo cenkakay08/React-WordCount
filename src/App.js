@@ -45,30 +45,7 @@ const WordCountApp = () => {
     }
     return table;
   };
-  const products = [
-    {
-      name: "TV",
-      price: 1000,
-    },
-    {
-      name: "Mobile",
-      price: 500,
-    },
-    {
-      name: "Book",
-      price: 20,
-    },
-  ];
-  const columns = [
-    {
-      dataField: "name",
-      text: "Product Name",
-    },
-    {
-      dataField: "price",
-      text: "Product Price",
-    },
-  ];
+
   return (
     <WrapperAll>
       <React.Fragment>
@@ -85,7 +62,7 @@ const WordCountApp = () => {
           />
           <Droptext>Drag-drop the file here, or click to select file!</Droptext>
         </DivInput>
-        <Scrolldiv>
+        <Tabblediv>
           <div>
             <Table
               rowHeight={50}
@@ -112,13 +89,13 @@ const WordCountApp = () => {
               />
             </Table>
           </div>
-        </Scrolldiv>
+        </Tabblediv>
       </React.Fragment>
     </WrapperAll>
   );
 };
 
-const Scrolldiv = styled.div`
+const Tabblediv = styled.div`
   height: 55vh;
   width: 30vw;
   top: 3vh;
