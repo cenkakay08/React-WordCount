@@ -10,7 +10,7 @@ const TableOfWords = ({ wordTable }) => {
         rowHeight={(height / 100) * 4}
         rowsCount={wordTable.length}
         headerHeight={(height / 100) * 4.5}
-        width={(width / 100) * 18}
+        width={(width / 100) * 20}
         height={(height / 100) * 55}
       >
         <Column
@@ -26,7 +26,7 @@ const TableOfWords = ({ wordTable }) => {
           columnKey="1"
           header={<Cell>Times</Cell>}
           align="center"
-          width={(width / 100) * 6}
+          width={(width / 100) * 8}
           cell={({ rowIndex, columnKey }) => {
             return <Cell>{wordTable[rowIndex][columnKey]}</Cell>;
           }}
@@ -38,7 +38,7 @@ const TableOfWords = ({ wordTable }) => {
 
 const Tabblediv = styled.div`
   height: 55vh;
-  width: 18vw;
+  width: 20vw;
   top: 42vh;
   left: 40vw;
   background-color: #fafafa;
